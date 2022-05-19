@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Document</title>
+    <script src="Jquery.min.js"></script>
+</head>
+<body>
+    <div class="carrucel">
+        <div class="cont">
+            
+        </div>
+    </div>
+</body>
+<script>
+$(document).ready(function(){
+    $.get("http://www.omdbapi.com/?s=Adventure&apikey=aaec10a4", function(data, status){
+       
+        data=data.Search
+        for (var i=0; i<data.length;i++){
+            var num=360/parseInt(data.length)
+            num=num*i
+            $('.cont').append('<div class="item" id="it'+i+'">'+
+                '<div class="etiqueta et'+(i+1)+'" id="et'+i+'" style="position:relative">'+
+                    '<b><h3>'+data[i].Title+'</h3></b>'+
+                '<img style="width: 87%;height: 13em;" src="'+data[i].Poster+'" alt=""><br>'+
+                '<span>'+data[i].Type+'<br> '+data[i].Year+'<br> '+data[i].imdbID+'</span>'+
+                '</div>'+
+            '</div>')
+            $('.carrucel .item:nth-child('+(i)+')').css({
+            'transform': ' rotate('+(num)+'deg)',
+            })
+        }
+        
+        $('.etiqueta').on("mouseover", function(){
+            $(this).css({
+                'width':'55%',
+                'position':'absolute',
+                'transform':'translateY(15%)',
+            })
+            $('.carrucel').css('animation-play-state','paused')
+
+        })
+        $('.etiqueta').on("mouseleave", function(){
+            $(this).css({'width':'46%','font-size':'unset','transform':'translateY(-15%)',})
+            $('.carrucel').css('animation-play-state','running')
+        })
+    });
+});
+
+</script>
+</html>
